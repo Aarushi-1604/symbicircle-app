@@ -1,7 +1,13 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+venv/
 .env
-.DS_Store
+
+# IDEs
 .idea/
 .vscode/
+
+# Database
+*.sqlite3
