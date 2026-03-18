@@ -16,8 +16,8 @@ class User(Base):
     full_name = Column(String,nullable=False)
     email= Column(String,unique=True, index= True,nullable=False)
     hashed_password = Column(String,nullable=False)
-    branch = Column(String)
-    batch = Column(String)
+    branch = Column(String,nullable=False)
+    batch = Column(String,nullable=False)
     is_verified = Column(Boolean, default=False)
     skills = relationship("Skill", secondary=user_skills, back_populates="users")
 
