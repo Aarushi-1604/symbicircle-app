@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .database import engine, Base
 from . import models
-from .routes import auth
+from .routes import auth,users
 
 models.Base.metadata.create_all(bind = engine)
 app = FastAPI(
@@ -10,8 +10,8 @@ app = FastAPI(
 )
 
 # This is what makes the "Authorize" button appear!
-app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-
+app.include_router(auth.router, prefix="/auth")
+app.include_router(users.router)
 @app.get("/")
 def home():
     return {"message": "Welcome to SymbiCircle API"}
