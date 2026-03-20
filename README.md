@@ -1,4 +1,4 @@
-# SymbiCircle
+# SymbiCircle (🚧 WORK IN PROGRESS)
 
 SymbiCircle is a campus collaboration platform designed to help students discover teammates, share projects, and connect based on technical skills.
 
