@@ -5,31 +5,43 @@ from ..utils.security import hash_password, verify_password, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 router = APIRouter(tags = ["Authentication"])
 
-@router.post ("/register", response_model=schemas.UserOut)
+
+@router.post("/register", response_model=schemas.UserOut)
 def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
-    #Checking if email is already in database
+    # 1. Standard email check
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail = "Email already registered"
-        )
-    # Hashing the user's password
-    hashed_pass = hash_password(user.password)
+        raise HTTPException(status_code=400, detail="Email already registered")
 
-    # Creating the database record
+    # 2. Create the User object (without skills yet)
+    hashed_pass = hash_password(user.password)
     new_user = models.User(
-        full_name = user.full_name,
+        full_name=user.full_name,
         email=user.email,
         hashed_password=hashed_pass,
         branch=user.branch,
         batch=user.batch
     )
-
-    # Saving and refresh
     db.add(new_user)
+    # 3. Handle the "Crowdsourced" Skills
+    for skill_name in user.skills:
+        # Check if skill exists (Case-insensitive)
+        db_skill = db.query(models.Skill).filter(models.Skill.name.ilike(skill_name)).first()
+
+        if not db_skill:
+            # If it's a new skill, add it to the Master List
+            db_skill = models.Skill(name=skill_name.title())
+            db.add(db_skill)
+            db.commit()
+            db.refresh(db_skill)
+
+        # Link the skill to the user
+        new_user.skills.append(db_skill)
+
+    # 4. Save User (and the links in the association table)
     db.commit()
     db.refresh(new_user)
+
     return new_user
 
 @router.post("/login", response_model=schemas.Token)

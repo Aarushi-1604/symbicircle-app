@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr
-from typing import Optional, List
+from pydantic import BaseModel, EmailStr, Field, field_validator
+from typing import List
+
 
 # Defining what user must send to register
 class UserCreate(BaseModel):
@@ -8,21 +9,43 @@ class UserCreate(BaseModel):
     password: str
     branch: str
     batch: str
+    skills: List[str] = Field(..., json_schema_extra={
+        'example': ['Python', 'FastAPI', 'NLP', 'Machine Learning', 'PostgreSQL']})
 
+    @field_validator('skills')
+    @classmethod
+    def validate_minimum_skills(cls, v):
+        # Removing duplicates and empty strings
+        unique_skills = list(set([s.strip() for s in v if s.strip()]))
+
+        # Enforcing the minimum 5 skills rule
+        if len(unique_skills) < 5:
+            raise ValueError("You must select at least 5 mandatory skills to join SymbiCircle")
+        return unique_skills
+
+
+class SkillOut(BaseModel):
+    name: str
+    class Config:
+        from_attributes = True
 # Data going OUT
 class UserOut(BaseModel):
-    id : int
+    id: int
     full_name: str
     email: EmailStr
     branch: str
-    batch:str
-    is_verified: bool
+    batch: str
+    skills: List[SkillOut] = []
+    # is_verified: bool
+
     class Config:
         from_attributes = True
+
 
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 class TokenData(BaseModel):
     email: str | None = None
