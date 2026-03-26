@@ -28,3 +28,7 @@ async def register_page(request: Request):
 @app.get("/register/skills")
 async def register_skills_page(request: Request):
     return templates.TemplateResponse("auth/register_skills.html", {"request": request})
+
+@app.get("/login")
+async def login_page(request: Request):
+    return templates.TemplateResponse("auth/login.html", {"request": request})

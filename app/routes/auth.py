@@ -51,6 +51,7 @@ def register_user(user: schemas.UserCreate, db: Session = Depends(database.get_d
         db.refresh(new_user)
     except Exception as e:
         db.rollback()
+        print(f"Registration Error: {e}")
         raise HTTPException(status_code=500, detail="Database error during registration")
 
     return new_user
@@ -64,16 +65,31 @@ def login_user(
     # Find user by email (OAuth2Form uses 'username' field)
     user = db.query(models.User).filter(models.User.email == user_credentials.username).first()
 
-    if not user or not verify_password(user_credentials.password, str(user.hashed_password)):
+    if not user:
+        print(f"DEBUG: User {user_credentials.username} not found in database.")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid Credentials"
         )
 
+    # Verify password (removed the str() cast which can cause issues with some hashers)
+    is_password_correct = verify_password(user_credentials.password, user.hashed_password)
+
+    if not is_password_correct:
+        print(f"DEBUG: Password verification failed for user {user.email}")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid Credentials"
+        )
+
+    # If everything is correct, create the token
     access_token = create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.get("/me", response_model=schemas.UserOut)
 def get_user_profile(current_user: models.User = Depends(get_current_user)):
+    """
+    Protected route to fetch current logged-in user data.
+    """
     return current_user
