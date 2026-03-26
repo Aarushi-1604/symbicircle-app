@@ -27,8 +27,7 @@ def search_users(
 
         # ensuring the user has EVERY skill requested
         for skill in search_skills:
-            query = query.filter(models.User.skills).filter(models.Skill.name.ilike(skill))
-
+            query=query.filter(models.User.skills.any(models.Skill.name.ilike(skill)))
     return query.distinct().all()
 
 @router.get("/skills/suggest", response_model=List[str])
