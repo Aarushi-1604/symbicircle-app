@@ -31,13 +31,36 @@
         <aside class="w-full md:w-64 space-y-6">
             <div class="glass p-6 rounded-2xl shadow-sm">
                 <h3 class="font-bold mb-4">Filter by Branch</h3>
-                <div class="space-y-2" id="branchFilters">
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600">
-                        <input type="radio" name="branch" value="" checked onchange="fetchUsers()"> All Branches
-                    </label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="branch" value="AIML" onchange="fetchUsers()"> AIML</label>
-                    <label class="flex items-center gap-2 cursor-pointer hover:text-blue-600"><input type="radio" name="branch" value="CSE" onchange="fetchUsers()"> CSE</label>
-                </div>
+                <div class="flex flex-col gap-3" id="branchFilters">
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="" checked onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">All Branches</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="AIML" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">AIML</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="CSE" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">CSE</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="ENTC" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">ENTC</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="RNA" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">RNA</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="MECH" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">Mechanical</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="CIVIL" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">Civil</span>
+    </label>
+</div>
             </div>
         </aside>
 
