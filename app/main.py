@@ -14,8 +14,8 @@ app = FastAPI(
 app.include_router(auth.router, prefix="/auth")
 app.include_router(users.router)
 @app.get("/")
-def home():
-    return {"message": "Welcome to SymbiCircle API"}\
+async def index_page(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 app.mount("/static",StaticFiles(directory="app/static"),name="static")
 
