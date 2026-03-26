@@ -6,12 +6,19 @@ from typing import List
 class UserCreate(BaseModel):
     full_name: str
     email: EmailStr
-    password: str
+    password: str = Field(...,min_length=8)
     branch: str
     batch: str
     skills: List[str] = Field(..., json_schema_extra={
         'example': ['Python', 'FastAPI', 'NLP', 'Machine Learning', 'PostgreSQL']})
 
+    @field_validator('email')
+    @classmethod
+    def validate_sit_email(cls,v:str) -> str:
+        # Needs to match the firstname.lastname.btech202X@sitpune.edu.in
+        if not v.endswith("@sitpune.edu.in"):
+            raise ValueError('Only SIT Pune email addresses are allowed')
+        return v.lower()
     @field_validator('skills')
     @classmethod
     def validate_minimum_skills(cls, v):

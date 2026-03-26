@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery | SymbiCircle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <nav class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
+        <h1 class="text-2xl font-bold text-blue-600 italic">SymbiCircle</h1>
+        <div class="flex items-center gap-4">
+            <span id="userGreeting" class="text-sm font-medium text-slate-600"></span>
+            <button onclick="logout()" class="text-sm text-red-500 hover:underline">Logout</button>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
+        <aside class="w-full md:w-64 space-y-6">
+            <div class="glass p-6 rounded-2xl shadow-sm">
+                <h3 class="font-bold mb-4">Filter by Branch</h3>
+                <div class="flex flex-col gap-3" id="branchFilters">
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="" checked onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">All Branches</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="AIML" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">AIML</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="CSE" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">CSE</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="ENTC" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">ENTC</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="RNA" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">RNA</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="MECH" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">Mechanical</span>
+    </label>
+    <label class="flex items-center gap-3 cursor-pointer group">
+        <input type="radio" name="branch" value="CIVIL" onchange="fetchUsers()" class="w-4 h-4 text-blue-600">
+        <span class="text-slate-600 group-hover:text-blue-600 transition">Civil</span>
+    </label>
+</div>
+            </div>
+        </aside>
+
+        <main class="flex-1 space-y-6">
+            <div class="glass p-4 rounded-2xl shadow-sm flex items-center gap-4">
+                <input type="text" id="skillSearch" placeholder="Search by skills (e.g. Python, Java)..."
+                       class="flex-1 bg-transparent border-none outline-none text-lg" oninput="fetchUsers()">
+                <div id="searchBtn" class="bg-blue-600 text-white p-2 rounded-xl cursor-pointer select-none hover:bg-blue-700 active:scale-95 transition-all"> 🔍 </div>
+            </div>
+
+            <div id="userGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                </div>
+        </main>
+    </div>
+
+    <script src="/static/js/discovery.js"></script>
+</body>
+</html>
